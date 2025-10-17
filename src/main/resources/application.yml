@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: EcommerceWebApp
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce_web_store
+    username: postgres
+    password: ahsan.130104
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: INFO
+    org.springframework: ERROR
+    com.zepox.EcommerceWebApp: ERROR
+
+JWT_SECRET_KEY: very-secret-key

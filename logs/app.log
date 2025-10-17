@@ -1,0 +1,20 @@
+2025-10-17T02:01:07.019+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-10-17T02:01:07.020+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-10-17T02:01:07.064+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] o.a.c.c.C.[.[localhost].[/api/v1]        : Initializing Spring embedded WebApplicationContext
+2025-10-17T02:01:07.207+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-17T02:01:07.274+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.29.Final
+2025-10-17T02:01:07.311+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-10-17T02:01:07.624+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-17T02:01:07.837+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4812dfe0
+2025-10-17T02:01:07.839+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-17T02:01:07.942+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-10-17T02:01:09.102+05:00  INFO 20120 --- [EcommerceWebApp] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-17T02:14:29.481+05:00  INFO 20120 --- [EcommerceWebApp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-17T02:14:29.491+05:00  INFO 20120 --- [EcommerceWebApp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
