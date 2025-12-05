@@ -16,8 +16,8 @@ import java.util.function.Function;
 
 @Component
 @Slf4j
-public class AuthUtil {
-    @Value("${JWT_SECRET_KEY}")
+public class JwtAuthUtil {
+    @Value("${jwt-secret-key}")
     private String jwtSecretKey;
 
     private SecretKey getSecretKey(){
@@ -29,7 +29,7 @@ public class AuthUtil {
                 .subject(user.getUsername())
                 .claim("userId", user.getId())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000*60*10))
+                .expiration(new Date(System.currentTimeMillis() + 1000*60*15))
                 .signWith(getSecretKey())
                 .compact();
     }
@@ -47,6 +47,7 @@ public class AuthUtil {
         final String userName = extractUsername(token);
         return userName.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
+
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }

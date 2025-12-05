@@ -1,12 +1,18 @@
 package com.zepox.EcommerceWebApp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "shippingdetails")
-public class ShippingDetails {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ShippingDetails extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -21,6 +27,8 @@ public class ShippingDetails {
     private String postalCode;
 
     @OneToMany(mappedBy = "shippingDetails")
+    @JsonIgnore
+    @ToString.Exclude
     private List<Order> orders;
 
 }

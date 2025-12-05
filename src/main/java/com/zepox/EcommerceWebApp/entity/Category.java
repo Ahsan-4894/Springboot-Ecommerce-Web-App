@@ -1,12 +1,17 @@
 package com.zepox.EcommerceWebApp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "categories")
-public class Category {
+@Data
+public class Category extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "categ_id")
@@ -19,8 +24,12 @@ public class Category {
 
     @ManyToOne
     @JoinColumn(name = "adminid")
-    private Admin admin;
+    @JsonIgnore
+    @ToString.Exclude
+    private User admin;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
+    @ToString.Exclude
     private List<Item> item;
 }

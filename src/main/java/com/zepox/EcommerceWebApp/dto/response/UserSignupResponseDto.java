@@ -10,5 +10,5 @@ public class UserSignupResponseDto {
     private String username;
     private String userId;
     private boolean success;
-    private String jwt;
+    private String message;
 }

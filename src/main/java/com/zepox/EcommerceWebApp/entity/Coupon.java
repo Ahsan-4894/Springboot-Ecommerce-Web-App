@@ -1,17 +1,23 @@
 package com.zepox.EcommerceWebApp.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "coupons")
-public class Coupon {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Coupon extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @ManyToOne
     @JoinColumn(name = "adminid")
-    private Admin admin;
+    private User admin;
 
     @Column(name = "discount_rate")
     private double discountRate;

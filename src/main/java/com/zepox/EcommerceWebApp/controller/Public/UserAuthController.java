@@ -1,5 +1,6 @@
 package com.zepox.EcommerceWebApp.controller.Public;
 
+import com.zepox.EcommerceWebApp.annotation.RateLimit;
 import com.zepox.EcommerceWebApp.dto.request.UserLoginRequestDto;
 import com.zepox.EcommerceWebApp.dto.request.UserSignupRequestDto;
 import com.zepox.EcommerceWebApp.dto.response.UserLoginResponseDto;
@@ -22,12 +23,15 @@ public class UserAuthController {
     private final UserService userService;
 
     @PostMapping("/login")
+    @RateLimit(requests = 5, duration = 60)
     public ResponseEntity<UserLoginResponseDto> login(@RequestBody UserLoginRequestDto dto, HttpServletResponse response) {
         return ResponseEntity.ok().body(userService.login(dto, response));
     }
 
     @PostMapping("/signup")
+    @RateLimit(requests = 5, duration = 60)
     public ResponseEntity<UserSignupResponseDto> signup(@RequestBody UserSignupRequestDto dto, HttpServletResponse response) {
-        return ResponseEntity.ok().body(userService.signup(dto, response));
+        UserSignupResponseDto resp = userService.signup(dto, response);
+        return ResponseEntity.ok().body(resp);
     }
 }

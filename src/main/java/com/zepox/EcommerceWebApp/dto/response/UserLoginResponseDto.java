@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 public class UserLoginResponseDto {
     private String username;
+    private String message;
     private String userId;
     private boolean success;
-    private String jwt;
 }

@@ -1,9 +1,10 @@
 package com.zepox.EcommerceWebApp.security;
 
 import com.zepox.EcommerceWebApp.service.MyUserDetailsService;
-import com.zepox.EcommerceWebApp.util.AuthUtil;
+import com.zepox.EcommerceWebApp.util.JwtAuthUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,47 +23,47 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-    private final AuthUtil authUtil;
+    private final JwtAuthUtil jwtAuthUtil;
     private final ApplicationContext context;
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try{
-
-//            Cookie[] cookies = request.getCookies();
-//
-//            if (cookies != null) {
-//                for (Cookie cookie : cookies) {
-//                    if ("jwt".equals(cookie.getName())) {
-//                        token = cookie.getValue();
-//                    }
-//                }
-//            }
-
-            final String authHeader = request.getHeader("Authorization");
-            String token = null;
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        try {
             String username = null;
+            String token = null;
 
-            if(authHeader == null || !authHeader.startsWith("Bearer ")) {
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("token".equals(cookie.getName())) {
+                        token = cookie.getValue();
+                    }
+                }
+            }
+
+            if (token == null || token.isEmpty()) {
                 filterChain.doFilter(request, response);
-            }
-            if(authHeader != null && authHeader.startsWith("Bearer ")) {
-                token = authHeader.split("Bearer ")[1];
-                username = authUtil.getUsernameFromToken(token);
+                return;
             }
 
-            if(username!=null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (token != null && !token.isEmpty()) {
+                username = jwtAuthUtil.getUsernameFromToken(token);
+            }
+
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(username);
-                if(authUtil.validateToken(token, userDetails)) {
+                if (jwtAuthUtil.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
-                filterChain.doFilter(request, response);
             }
-        }catch(Exception ex){
+            filterChain.doFilter(request, response);
+
+        } catch (Exception ex) {
             handlerExceptionResolver.resolveException(request, response, null, ex);
         }
     }

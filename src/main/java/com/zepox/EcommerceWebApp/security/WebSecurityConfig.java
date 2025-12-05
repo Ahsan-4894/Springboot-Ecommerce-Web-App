@@ -1,5 +1,6 @@
 package com.zepox.EcommerceWebApp.security;
 
+import com.zepox.EcommerceWebApp.config.CustomCorsConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -18,8 +19,9 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 public class WebSecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final HandlerExceptionResolver handlerExceptionResolver;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomCorsConfig cors) throws Exception {
         httpSecurity
                 .csrf(csrfConfig-> csrfConfig.disable())
                 .sessionManagement(sessionManagementConfig ->
@@ -30,9 +32,13 @@ public class WebSecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
+                .cors(c-> c.configurationSource(cors))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(ex ->
-                        ex.accessDeniedHandler((request, response, accessDeniedException)->{
+                .exceptionHandling(ex -> ex.
+                        authenticationEntryPoint((request, response, authException) ->{
+                            handlerExceptionResolver.resolveException(request, response, null,  authException);
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException)->{
                             handlerExceptionResolver.resolveException(request, response, null, accessDeniedException);
                         }));
         return httpSecurity.build();
